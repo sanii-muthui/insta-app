@@ -9,46 +9,34 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-             <h1>Name:{{request.user.username}}</h1>
-
             <div class="col-md-4">
-
-                <img src="{{profile.image.url}}" class="img" alt="Project" class="img-fluid">
-                <style>
-                    .img{
-                        border-radius: 50%;
-                    }
-                </style>
-
-            <h1>Bio: {{profile.bio}}</h1>
+            <div class="card">
+                <h1 class="card-header">{{request.user.username}}</h1>
+            <div class="card-body">
+                        <img src="{{profile.photo.url}}" class="img" alt="Project" class="img-fluid">
+                        <style>
+                            .img{
+                                border-radius: 50%;
+                            }
+                        </style>
+                    <h1>Bio:{{profile.bio}}</h1>
+                    </div>
+                </div>
+                <div class="card-footer">
+                        <button class="btn profile-create-btn"><a href="/edit/profile">Edit Profile</a> </button>
+                </div>
             </div>
-
-
-
-            <h1 class="profile-user-name">{{profile.profile}}</h1>
-
-            <button class="btn profile-create-btn"><a href="/edit/profile">Edit Profile</a> </button>
-        </div>
+            
     </div>
     <br><br><br>
-    <hr>
     <div class="row">
         {% for project in projects %}
-
         <div class="col-md-4">
-            <img src="{{project.image.url}}" class="img" alt="Project" class="img-fluid">
-            <style>
-                .img {
-                    height: 250px;
-                    width: 250px;
-                }
-            </style>
+            <div class="card">
+                <img src="{{project.image.url}}"  alt="Project" class="img-fluid">
+            </div>
         </div>
         {% endfor%}
-
     </div>
-
-
 </div>
 {% endblock %}
