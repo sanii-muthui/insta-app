@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404
-from .models import Project,Profile
+from .models import Project,Profile,Comment
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from .forms import ProjectForm,ProfileForm,VoteForm
+from .forms import ProjectForm,ProfileForm,VoteForm,NewComment
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -15,16 +16,27 @@ def index(request):
 def project(request,project_id):
     project = Project.objects.get(id = project_id)
     rating = round(((project.userinterface)/2),2)
-    if request.method == 'POST':
-        form = VoteForm(request.POST)
-        if form.is_valid:
-            if project.userinterface == 1:
-                project.userinterface = int(request.POST['userinterface'])
-            else:
-                project.userinterface = (project.userinterface + int(request.POST['userinterface']))/2
+    # if request.method == 'POST':
+    #     form = VoteForm(request.POST)
+    #     if form.is_valid:
+    #         if project.userinterface == 1:
+    #             project.userinterface = int(request.POST['userinterface'])
+    #         else:
+    #             project.userinterface = (project.userinterface + int(request.POST['userinterface']))/2
+        # form = VoteForm()
+    current_user=request.user
+    if request.method=='POST':
+        form=NewComment(request.POST)
+        if form.is_valid():
+            comment=form.save(commit=False)
+            comment.comment_owner=current_user
+            comment.save()
+          
+            messages.success(request,f'Comment made') 
     else:
-        form = VoteForm()
-    return render(request,'project.html',{'form':form,'project':project,'rating':rating})
+        form=NewComment()
+    comments=Comment.get_comments(project_id)
+    return render(request,'project.html',{'form':form,'project':project,'rating':rating,'comments':comments})
 
 @login_required(login_url='/accounts/login/')
 def new_project(request):
@@ -66,7 +78,7 @@ def profile(request):
     else:
         profile = Profile.objects.get(profile=current_user)
 
-    return render(request, 'profile/profile.html',{'projects':projects,'profile':profile})
+    return render(request, 'profile/profile.html',{'projects':projects,'profile':profile,'user':current_user})
 
 def edit_profile(request):
     current_user = request.user
@@ -76,6 +88,7 @@ def edit_profile(request):
             profile = form.save(commit = False)
             profile.project = current_user
             profile.save()
+            messages.success(request,'Your account has been updated')
         return redirect('Profile')
     else:
         form = ProfileForm()

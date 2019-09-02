@@ -12,7 +12,7 @@
         <div class="card">
             <h3 id="post-title" class="card-header text-center">{{post.title}}</h3>
             <a class="img-post" href="{% url 'projects' post.id %}"><img src="{{post.image.url}}" class="img-fluid" alt="Project"></a>
-            posted by:{{project.profile}}
+            posted by:{{post.profile.username}}
             
         </div>
     </div>
