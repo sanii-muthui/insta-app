@@ -1,4 +1,4 @@
-## Project Nmae
+## Project Name
  IGRAM
 ## Project Author
   (Daniel Muthui)
@@ -28,7 +28,7 @@ $ source virtual/bin/env
 $ pip install Django==1.11
 
 ## Testing the Application
-To run the tests for the class: Run python3.6 manage.py test imageapp
+To run the tests for the class: Run python3.6 manage.py test instagram
 
 ## Dependencies
 - astroid==2.2.5
