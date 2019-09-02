@@ -5,21 +5,18 @@
 
 {% block content %}
 {{block.super}}
-<div id="content" class="container">
+<div class="container">
     <div class="row">
-        <div class="row">
-            {% for post in projects %}
-            <div class="col-md-4">
-                <h3 id="post-title" class="text-center">{{post.title}}</h3>
-                <a class="img-post" href="{% url 'projects' post.id %}"><img src="{{post.image.url}}" class="img-fluid" alt="Project"></a>
-            </div>
-            {% endfor %}
-        </div>
-        <br><br>
-        <div class="row">
-
+        {% for post in projects %}
+        <div class="col-md-4">
+        <div class="card">
+            <h3 id="post-title" class="card-header text-center">{{post.title}}</h3>
+            <a class="img-post" href="{% url 'projects' post.id %}"><img src="{{post.image.url}}" class="img-fluid" alt="Project"></a>
+            posted by:{{project.profile}}
+            
         </div>
     </div>
+    {% endfor %}
+    </div>
 </div>
-
 {% endblock %}
