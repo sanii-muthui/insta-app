@@ -20,7 +20,9 @@ class Project(models.Model):
     description = models.TextField(max_length=1000)
     profile = models.ForeignKey(User,on_delete=models.CASCADE, null=True)   
     userinterface=models.PositiveIntegerField(choices=list(zip(range(1,11),range(1, 11))), default=1)
-
+    def __str__(self):
+     return self.title
+     
     def save_project(self):
         self.save()
     def delete_project(self):
